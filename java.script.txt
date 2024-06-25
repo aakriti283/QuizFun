@@ -1,0 +1,145 @@
+let playerName = '';
+let currentQuestion = 0;
+let score = 0;
+
+const questions = [
+  {
+    question_en: 'What is the capital city of France?',
+    question_hi: 'फ्रांस की राजधानी क्या है?',
+    options: ['London', 'Paris', 'Berlin', 'Madrid'],
+    answer: 'Paris'
+  },
+  {
+    question_en: 'Which planet is known as the Red Planet?',
+    question_hi: 'लाल ग्रह किसे कहा जाता है?',
+    options: ['Mars', 'Jupiter', 'Mercury', 'Venus'],
+    answer: 'Mars'
+  },
+  {
+    question_en: 'Who painted the Mona Lisa?',
+    question_hi: 'मोना लिसा की चित्रित किसने की थी?',
+    options: ['Leonardo da Vinci', 'Pablo Picasso', 'Vincent van Gogh', 'Michelangelo'],
+    answer: 'Leonardo da Vinci'
+  },
+  // Add more questions here...
+  {
+    question_en: 'Who developed the theory of relativity?',
+    question_hi: 'सापेक्षता सिद्धांत का विकास किसने किया था?',
+    options: ['Isaac Newton', 'Albert Einstein', 'Stephen Hawking', 'Galileo Galilei'],
+    answer: 'Albert Einstein'
+  },
+  {
+    question_en: 'Which country is known as the Land of the Rising Sun?',
+    question_hi: 'कौनसा देश सूर्योदय की भूमि के रूप में जाना जाता है?',
+    options: ['China', 'Japan', 'India', 'South Korea'],
+    answer: 'Japan'
+  },
+  {
+    question_en: 'Which is the largest ocean on Earth?',
+    options: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
+    answer: 'Pacific Ocean'
+  },
+  {
+    question_en: 'Who discovered penicillin?',
+    options: ['Alexander Fleming', 'Marie Curie', 'Louis Pasteur', 'Gregor Mendel'],
+    answer: 'Alexander Fleming'
+  },
+  {
+   question_en: 'Who wrote the play "Romeo and Juliet"?',
+    options: ['William Shakespeare', 'Charles Dickens', 'Jane Austen', 'Mark Twain'],
+    answer: 'William Shakespeare'
+  },
+  {
+   question_en: 'What is the hardest natural substance on Earth?',
+    options: ['Diamond', 'Steel', 'Iron', 'Gold'],
+    answer: 'Diamond'
+  }
+];
+
+function startGame() {
+  playerName = document.getElementById('playerName').value;
+  if (playerName.trim() === '') {
+    alert('Please enter your name.');
+    return;
+  }
+  showQuestion();
+}
+
+function showQuestion() {
+  const quiz = document.getElementById('quiz');
+  const questionData = questions[currentQuestion];
+
+  quiz.innerHTML = `
+    <h2>${questionData.question_en}</h2>
+    <form id="quizForm">
+      ${questionData.options.map(option => `
+        <input type="radio" id="${option}" name="answer" value="${option}">
+        <label for="${option}">${option}</label><br>
+      `).join('')}
+      <br>
+      <button type="button" onclick="checkAnswer()">Submit Answer</button>
+    </form>
+  `;
+}
+
+function checkAnswer() {
+  const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+  if (!selectedAnswer) {
+    alert('Please select an answer.');
+    return;
+  }
+
+  const answer = selectedAnswer.value;
+  const correctAnswer = questions[currentQuestion].answer;
+
+  if (answer === correctAnswer) {
+    score += 5;
+    alert('Correct answer! You earned 5 points.');
+  } else {
+    score -= 1;
+    alert(`Wrong answer. The correct answer is ${correctAnswer}. You lost 1 point.`);
+  }
+
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    showQuestion();
+  } else {
+    endGame();
+  }
+}
+
+function endGame() {
+  alert(`Congratulations ${playerName}! You have completed the quiz.\nYour final score is ${score} points.`);
+  displayScore();
+  currentQuestion = 0;
+  score = 0;
+}
+
+function restart() {
+  currentQuestion = 0;
+  score = 0;
+  showQuestion();
+}
+
+function newGame() {
+  document.getElementById('nameForm').reset();
+  document.getElementById('quiz').innerHTML = '';
+  document.getElementById('scoreboard').innerHTML = '';
+  currentQuestion = 0;
+  score = 0;
+}
+
+function quit() {
+  if (confirm('Are you sure you want to quit the game?')) {
+    document.getElementById('quiz').innerHTML = '';
+    document.getElementById('nameForm').reset();
+    document.getElementById('scoreboard').innerHTML = '';
+    currentQuestion = 0;
+    score = 0;
+  }
+}
+
+function displayScore() {
+  const scoreboard = document.getElementById('scoreboard');
+  scoreboard.innerHTML = `<h3>${playerName}'s Score</h3><p>Final Score: ${score}</p>`;
+}

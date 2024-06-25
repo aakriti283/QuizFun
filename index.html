@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>General Knowledge Quiz</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>General Knowledge Quiz</h1>
+    <form id="nameForm">
+      <label for="playerName">Enter Your Name:</label>
+      <input type="text" id="playerName" required>
+      <button type="button" onclick="startGame()">Start Game</button>
+    </form>
+  </div>
+  <div id="quiz" class="quiz">
+    <!-- Quiz questions will be generated here -->
+  </div>
+  <div class="controls">
+    <button type="button" onclick="restart()">Restart Quiz</button>
+    <button type="button" onclick="newGame()">New Game</button>
+    <button type="button" onclick="quit()">Quit Game</button>
+  </div>
+  <div id="scoreboard" class="scoreboard">
+    <!-- Player's name and score will be displayed here -->
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
